@@ -1,5 +1,5 @@
 import torch
-import torch.nn as nn
+import torch.nn as nn, flatten
 from typing import Optional
 
 class SimpleMLP(nn.Module):
@@ -30,7 +30,7 @@ class SimpleMLP(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # TODO: flatten x rồi đưa qua self.net
-        x = x.view(x.size(0), -1)
+        x = flatten(x, 1)
         out = self.net(x)
         return out
     
@@ -47,4 +47,4 @@ out = model(dummy)
 assert out.shape == (32, 10), f"Shape sai: {out.shape}"
 print("✅ Pass! Output shape:", out.shape)
 print(model)
-print(f"SimpleMLP: {model.count_parameters()["total"]} params ({model.count_parameters()["trainable"]} trainable)")
+print(f"SimpleMLP: {model.count_parameters()['total']} params ({model.count_parameters()['trainable']} trainable)")
